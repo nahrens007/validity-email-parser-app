@@ -1,0 +1,56 @@
+version: "3.8"
+services:
+
+  db:
+    image: postgres
+    env_file:
+      - ./.env.dev
+    ports:
+      - ${DATABASE_HOST_PORT}:${DATABASE_CONTAINER_PORT}
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    networks:
+      - backend
+
+  api:
+    depends_on:
+      - db
+    env_file:
+      - ./.env.dev
+    build:
+      context: ./api
+      dockerfile: Dockerfile-dev
+    ports:
+      - ${FLASK_HOST_PORT}:${FLASK_CONTAINER_PORT}
+    networks:
+      - backend
+      - frontend
+    environment:
+      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_CONTAINER_NAME}:${DATABASE_CONTAINER_PORT}/${DATABASE_NAME}
+      - FLASK_RUN_PORT=${FLASK_CONTAINER_PORT}
+
+  web:
+    depends_on:
+      - api
+    container_name: web-dev
+    env_file:
+      - ./.env.dev
+    build:
+      context: ./web
+      dockerfile: Dockerfile-dev
+    ports:
+      - ${WEB_HOST_PORT}:${WEB_CONTAINER_PORT}
+    networks:
+      - frontend
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+
+networks:
+  backend:
+  frontend:
