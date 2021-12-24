@@ -18,5 +18,5 @@ else
     python manage.py prep_db
     echo "Database prep complete"
     service nginx start
-    uwsgi --ini uwsgi.ini
+    uwsgi --ini conf/uwsgi.ini
 fi
