@@ -23,7 +23,7 @@ class Message(db.Model):
     subject = db.Column(db.String(512),unique=False,nullable=True)
 
 # how-to screen
-@app.route('/')
+@app.route('/api')
 def home():
     endpoints = []
     endpoints.append({"method":"POST",
@@ -39,7 +39,7 @@ def home():
                       })
     return jsonify(endpoints=endpoints)
 
-@app.route('/get',methods=['GET'])
+@app.route('/api/get',methods=['GET'])
 def get():
     return jsonify(Message.query.all())
 

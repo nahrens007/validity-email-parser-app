@@ -3,10 +3,11 @@ services:
 
   db:
     image: postgres
+    container_name: db
     env_file:
       - ./.env
     ports:
-      - ${DATABASE_HOST_PORT}:${DATABASE_CONTAINER_PORT}
+      - :${DATABASE_CONTAINER_PORT}
     environment:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
@@ -19,13 +20,14 @@ services:
   api:
     depends_on:
       - db
+    container_name: api
     env_file:
       - ./.env
     build:
       context: ./api
       dockerfile: Dockerfile
     ports:
-      - ${FLASK_HOST_PORT}:${FLASK_CONTAINER_PORT}
+      - :${FLASK_CONTAINER_PORT}
     networks:
       - backend
       - frontend

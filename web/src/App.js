@@ -1,5 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+import ReactDOM from 'react-dom';
+import MessagesContainer from './MessagesContainer';
+import UploadContainer from './UploadContainer';
 
 function App() {
   return (
@@ -9,7 +12,6 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <p>Hello world!!!!</p>
         <a
           className="App-link"
           href="https://reactjs.org"
