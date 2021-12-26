@@ -1,28 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
-import ReactDOM from 'react-dom';
-import MessagesContainer from './MessagesContainer';
-import UploadContainer from './UploadContainer';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Messages from './Messages';
+import Upload from './Upload';
+import Navigation from './Navigation';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <Router>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Messages />} />
+          <Route path="/upload" element={<Upload />} />
+        </Routes>
+      </Router>
+    );
+  }
 }
 
 export default App;

@@ -43,7 +43,7 @@ def home():
 def get():
     return jsonify(Message.query.all())
 
-@app.route('/load',methods=['POST'])
+@app.route('/api/load',methods=['POST'])
 def load():
     response = {
         "success":[],
@@ -70,7 +70,7 @@ def load():
                     except TypeError:
                         response["error"].append({"filename":member.name,"errortype":"TypeError","description":"File contents are invalid"})
         except tarfile.ReadError:
-            return jsonify(error="File %s is not tar.gz archive" % request.files['file'].filename)
+            return jsonify(error="File %s is not a tar.gz archive" % request.files['file'].filename)
     try:
         db.session.commit()
     except:
